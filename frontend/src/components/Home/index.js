@@ -2,8 +2,10 @@ import React from "react";
 import { connect } from "react-redux";
 import agent from "../../agent";
 import {
-  APPLY_TAG_FILTER, FILTER_BY_TITLE, HOME_PAGE_LOADED,
-  HOME_PAGE_UNLOADED
+  APPLY_TAG_FILTER,
+  FILTER_BY_TITLE,
+  HOME_PAGE_LOADED,
+  HOME_PAGE_UNLOADED,
 } from "../../constants/actionTypes";
 import Banner from "./Banner";
 import MainView from "./MainView";
@@ -41,11 +43,11 @@ class Home extends React.Component {
   componentWillUnmount() {
     this.props.onUnload();
   }
-  
+
   render() {
     return (
       <div className="home-page">
-        <Banner onFilter={this.props.onFilter}/>
+        <Banner onFilter={this.props.onFilter} />
 
         <div className="container page">
           <Tags tags={this.props.tags} onClickTag={this.props.onClickTag} />

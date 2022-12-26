@@ -1,4 +1,3 @@
-/* eslint-disable no-constant-condition */
 import React from "react";
 import { connect } from "react-redux";
 import agent from "../../agent";

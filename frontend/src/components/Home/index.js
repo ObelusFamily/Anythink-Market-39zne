@@ -1,14 +1,15 @@
-import Banner from "./Banner";
-import MainView from "./MainView";
 import React from "react";
-import Tags from "./Tags";
-import agent from "../../agent";
 import { connect } from "react-redux";
+import agent from "../../agent";
 import {
+  APPLY_TAG_FILTER,
+  FILTER_BY_TITLE,
   HOME_PAGE_LOADED,
   HOME_PAGE_UNLOADED,
-  APPLY_TAG_FILTER,
 } from "../../constants/actionTypes";
+import Banner from "./Banner";
+import MainView from "./MainView";
+import Tags from "./Tags";
 
 const Promise = global.Promise;
 
@@ -24,6 +25,7 @@ const mapDispatchToProps = (dispatch) => ({
   onLoad: (tab, pager, payload) =>
     dispatch({ type: HOME_PAGE_LOADED, tab, pager, payload }),
   onUnload: () => dispatch({ type: HOME_PAGE_UNLOADED }),
+  onFilter: (payload) => dispatch({ type: FILTER_BY_TITLE, payload }),
 });
 
 class Home extends React.Component {
@@ -45,7 +47,7 @@ class Home extends React.Component {
   render() {
     return (
       <div className="home-page">
-        <Banner />
+        <Banner onFilter={this.props.onFilter} />
 
         <div className="container page">
           <Tags tags={this.props.tags} onClickTag={this.props.onClickTag} />

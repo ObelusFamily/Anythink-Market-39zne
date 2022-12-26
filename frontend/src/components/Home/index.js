@@ -1,3 +1,4 @@
+/* eslint-disable no-constant-condition */
 import React from "react";
 import { connect } from "react-redux";
 import agent from "../../agent";
@@ -15,6 +16,7 @@ const Promise = global.Promise;
 
 const mapStateToProps = (state) => ({
   ...state.home,
+  items: state.itemList.items,
   appName: state.common.appName,
   token: state.common.token,
 });
@@ -25,10 +27,14 @@ const mapDispatchToProps = (dispatch) => ({
   onLoad: (tab, pager, payload) =>
     dispatch({ type: HOME_PAGE_LOADED, tab, pager, payload }),
   onUnload: () => dispatch({ type: HOME_PAGE_UNLOADED }),
-  onFilter: (payload) => dispatch({ type: FILTER_BY_TITLE, payload }),
+  onFilter: (title, payload) =>
+    dispatch({ type: FILTER_BY_TITLE, payload, title }),
 });
 
 class Home extends React.Component {
+  state = {
+    search: "",
+  };
   componentWillMount() {
     const tab = "all";
     const itemsPromise = agent.Items.all;
@@ -43,15 +49,29 @@ class Home extends React.Component {
   componentWillUnmount() {
     this.props.onUnload();
   }
-
+  onChangeValue = (search) => {
+    this.setState({
+      search,
+    });
+  };
   render() {
     return (
       <div className="home-page">
-        <Banner onFilter={this.props.onFilter} />
+        <Banner
+          search={this.state.search}
+          onChangeValue={this.onChangeValue}
+          onFilter={this.props.onFilter}
+        />
 
         <div className="container page">
           <Tags tags={this.props.tags} onClickTag={this.props.onClickTag} />
-          <MainView />
+          {this.state.search && !this.props.items.length ? (
+            <div id="empty" className="text-center">
+              <p>No items found for {this.state.search} </p>
+            </div>
+          ) : (
+            <MainView />
+          )}
         </div>
       </div>
     );

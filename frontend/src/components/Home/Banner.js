@@ -9,8 +9,9 @@ const Banner = ({ onFilter, search, onChangeValue }) => {
       <div className="container p-4 text-center">
         <img src={logo} alt="banner" />
         <div>
-          <span id="get-part">
-            A place to <span onClick={() => setHidden(!hidden)}>get</span>{" "}
+          <span>A place to </span>
+          <span id="get-part" onClick={() => setHidden(!hidden)}>
+            get
           </span>
           {!hidden && (
             <input
